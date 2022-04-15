@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.test.taxservice.vo.AddressVo;
 
-@FeignClient(url = "${address-service.url}", name = "addressFeignClient")
+@FeignClient(value = "ADDRESS-SERVICE")
 public interface AddressFeignClient {
 	
-	@GetMapping("/{addressId}")
+	@GetMapping("/api/address/{addressId}")
 	public AddressVo getAddress(@PathVariable Integer addressId);
 
 }

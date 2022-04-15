@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.test.taxservice.vo.CitizenVo;
 
-@FeignClient(url = "${citizen-service.url}", name = "citizenFeignClient")
+@FeignClient(value = "CITIZEN-INFO-SERVICE")
 public interface CitizenFeignClient {
 	
-	@GetMapping("/{citizenId}")
+	@GetMapping("/api/citizen/{citizenId}")
 	public CitizenVo getCitizenData(@PathVariable("citizenId") String citizenId);
 
 }

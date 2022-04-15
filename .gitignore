@@ -27,3 +27,6 @@ eureka-server/.mvn/wrapper/maven-wrapper.jar
 eureka-server/.mvn/wrapper/maven-wrapper.properties
 eureka-server/.mvn/wrapper/maven-wrapper.jar
 eureka-server/.mvn/wrapper/maven-wrapper.jar
+api-gateway/.mvn/wrapper/maven-wrapper.properties
+api-gateway/.mvn/wrapper/maven-wrapper.jar
+api-gateway/.mvn/wrapper/maven-wrapper.jar

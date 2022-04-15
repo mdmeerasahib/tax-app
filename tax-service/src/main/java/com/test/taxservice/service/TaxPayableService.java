@@ -11,23 +11,22 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
 
+import com.test.taxservice.feignclients.AddressFeignClient;
+import com.test.taxservice.feignclients.CitizenFeignClient;
 import com.test.taxservice.vo.AddressVo;
 import com.test.taxservice.vo.CitizenVo;
 import com.test.taxservice.vo.TaxPayableVo;
 import com.test.taxservice.vo.TaxPayerDetail;
 
-import reactor.core.publisher.Mono;
-
 @Service
 public class TaxPayableService {
 	
 	@Autowired
-	private WebClient citizenServiceWebClient;
+	private AddressFeignClient addressFeignClient;
 	
 	@Autowired
-	private WebClient addressServiceWebClient;
+	private CitizenFeignClient citizenFeignClient;
 	
 	/**
 	 * This method retrieves and returns tax payer details for specified financial year
@@ -79,11 +78,9 @@ public class TaxPayableService {
 	private Map<String, CitizenVo> retrieveCitizenData(List<String> citizenIdList) {
 		Map<String, CitizenVo> citizenDataMap = new HashMap<>();
 		citizenIdList.forEach(citizenId -> { 
-			Mono<CitizenVo> citizenVoMono = citizenServiceWebClient.get().uri("/" + citizenId).retrieve().bodyToMono(CitizenVo.class); 
-			CitizenVo citizenData = citizenVoMono.block();
 			
-			Mono<AddressVo> addressVoMono = addressServiceWebClient.get().uri("/" + citizenData.getAddressId()).retrieve().bodyToMono(AddressVo.class); 
-			AddressVo addressData = addressVoMono.block();
+			CitizenVo citizenData = citizenFeignClient.getCitizenData(citizenId);
+			AddressVo addressData = addressFeignClient.getAddress(citizenData.getAddressId());
 			
 			citizenData.setAddressData(addressData);
 			
